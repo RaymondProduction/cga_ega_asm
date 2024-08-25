@@ -61,7 +61,6 @@ extrn draw_rectangle:proc
                 mov  si, 90              ; висота прямокутника
                 call draw_rectangle
 
-
     ; Виведення інформації про поточний режим
                 mov  ah, 02h             ; функція виведення символу
                 mov  dl, '0'             ; символ '0'
@@ -74,7 +73,7 @@ extrn draw_rectangle:proc
 
     ; Перехід до наступного режиму
                 inc  [mode]
-                cmp  [mode], 2
+                cmp  [mode], 3           ; Змінено з 2 на 3 для підтримки нового режиму
                 jl   cycle_modes
 
     ; Повернення до текстового режиму

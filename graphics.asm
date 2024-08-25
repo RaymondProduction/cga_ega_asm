@@ -8,7 +8,7 @@ public draw_pixel
 public draw_rectangle
 
 ; Процедура для встановлення графічного режиму
-; Вхід: AL - номер режиму (0 - CGA, 1 - EGA)
+; Вхід: AL - номер режиму (0 - CGA, 1 - EGA, 2 - SVGA 640x480x256)
 set_graphic_mode proc
     push ax
     push bx
@@ -17,6 +17,8 @@ set_graphic_mode proc
     je set_cga
     cmp al, 1
     je set_ega
+    cmp al, 2
+    je set_svga
     
     ; Якщо невідомий режим, встановлюємо EGA за замовчуванням
 set_ega:
@@ -25,6 +27,10 @@ set_ega:
     
 set_cga:
     mov ax, 0006h  ; CGA режим (640x200, 2 кольори)
+    jmp set_mode
+
+set_svga:
+    mov ax, 0012h  ; SVGA режим (640x480, 256 кольорів)
     
 set_mode:
     int 10h
