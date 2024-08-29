@@ -2576,6 +2576,7 @@ public set_text_mode
 public draw_char
 public draw_pixel
 public draw_rectangle
+public draw_string
 
     ; Явно вказуємо, що font_data доступний з сегмента коду
     ;TODO:                public font_data
@@ -2637,6 +2638,42 @@ draw_char_skip:
     pop    ax
     ret
 draw_char endp
+
+; draw_string процедура
+; Вхід:
+;   SI - адреса рядка (завершується нулем)
+;   CX - початкова X координата
+;   DX - Y координата
+;   BL - колір тексту
+; Використовує: AX, BX, CX, DX, SI, DI
+draw_string proc
+    push ax
+    push bx
+    push cx
+    push dx
+    push si
+    push di
+
+draw_string_loop:
+    mov al, [si]    ; Завантажуємо символ з рядка
+    test al, al     ; Перевіряємо, чи це кінець рядка (нуль)
+    jz draw_string_end
+
+    call draw_char  ; Викликаємо процедуру для виведення символу
+
+    inc si          ; Переходимо до наступного символу в рядку
+    add cx, 8       ; Збільшуємо X координату (припускаємо, що ширина символу 8 пікселів)
+    jmp draw_string_loop
+
+draw_string_end:
+    pop di
+    pop si
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+    ret
+draw_string endp
 
 ; Процедура для встановлення графічного режиму
 ; Вхід: AL - номер режиму (0 - CGA, 1 - EGA, 2 - SVGA 640x480x256)
