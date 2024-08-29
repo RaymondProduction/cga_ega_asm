@@ -74,6 +74,10 @@ extrn draw_pixel:proc         ; Процедура малювання піксе
                     mov  al, 'O'
                     add  cx, 8
                     call draw_char
+    ; Виведення символу
+                    mov  al, '@'
+                    add  cx, 8
+                    call draw_char
 
 
     ; Очікування натискання клавіші користувачем
