@@ -74,18 +74,19 @@ set_graphic_mode proc
     
     ; Якщо невідомий режим, встановлюємо EGA за замовчуванням
 set_ega:
-    mov bx, 101h           ; Режим 101h - 640x480x256
+    mov ax, 0010h  ; EGA режим (640x350, 16 кольорів)
     jmp set_mode
     
 set_cga:
-    mov bx, 101h           ; Режим 101h - 640x480x256
+    mov ax, 0006h  ; CGA режим (640x200, 2 кольори)
     jmp set_mode
 
+; SVGA режим (640x480, 256 кольорів)
 set_svga:
     mov bx, 101h           ; Режим 101h - 640x480x256
+    mov ax, 4F02h          ; Функція VESA - Set VBE Mode
     
 set_mode:
-    mov ax, 4F02h          ; Функція VESA - Set VBE Mode
     int 10h                ; Виклик переривання BIOS
     pop bx
     pop ax
